@@ -1,0 +1,7 @@
+/node_modules/
+/.env
+/package-lock.json
+/public/main*
+/public/statistics.html
+/src/*/*/*.d.ts
+/.vscode/.settings.json.swp

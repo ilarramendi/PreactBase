@@ -1,0 +1,14 @@
+{
+	"editor.detectIndentation": false,
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"workbench.colorTheme": "Default Dark+",
+	"files.exclude": {
+		".vscode": true,
+		"src/*/*/*.scss.d.ts": true,
+		"node_modules": true
+	},
+	"editor.tabSize": 3,
+	"workbench.iconTheme": "material-icon-theme",
+	"editor.foldingMaximumRegions": 50000
+}

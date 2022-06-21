@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "jsx": "react",
+      "module": "commonjs",
+      "noImplicitAny": false,
+      "preserveConstEnums": true,
+      "removeComments": true,
+      "target": "es5",
+      "esModuleInterop": true,
+    },
+    "include": [
+      "./src/**/**/*",
+      "custom.d.ts"
+    ]
+  }
