@@ -1,9 +1,7 @@
+import {Component} from 'preact';
 
-import React from 'react';
-
-import {styles} from './App.scss';
-export default class App extends React.Component {
+export default class App extends Component {
 	render() {
-		return <label>Hey!</label>
+		return <label>Hey!</label>;
 	}
 }

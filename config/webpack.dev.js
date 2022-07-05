@@ -1,7 +1,8 @@
-const {merge} = require('webpack-merge');
-const common = require('./webpack.common.js');
+import {merge} from 'webpack-merge';
+import common from './webpack.common.js';
 
-module.exports = merge(common, {
+export default merge(common, {
+	mode: 'development',
 	devtool: 'source-map',
 	stats: {
 		warnings: true,
@@ -18,6 +19,15 @@ module.exports = merge(common, {
 		colors: true,
 		chunks: false,
 		children: false,
-		assets: false,
+		assets: false
 	},
+	devServer: {
+		port: '9500',
+		open: true,
+		hot: true,
+		liveReload: true,
+
+		// Needed for react router to work
+		historyApiFallback: true,
+	}
 });
