@@ -1,0 +1,7 @@
+{
+  "extends": "stylelint-config-xo",
+  "customSyntax": "postcss-scss",
+  "rules": {
+    "declaration-no-important": null
+  }
+}

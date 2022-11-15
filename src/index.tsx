@@ -1,5 +1,7 @@
+import './types/global.functions';
+
 import {render} from 'preact';
 
-import App from './pages/app/App';
+import App from './components/app/App';
 
-render(<App />, document.querySelector('#root'));
+render(<App />, document.body);

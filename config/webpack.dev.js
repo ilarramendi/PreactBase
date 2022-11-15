@@ -23,11 +23,15 @@ export default merge(common, {
 	},
 	devServer: {
 		port: '9500',
-		open: true,
+		// open: true,
 		hot: true,
-		liveReload: true,
-
 		// Needed for react router to work
 		historyApiFallback: true,
+		proxy: {
+			'/api': {
+				changeOrigin: true,
+				target: 'https://YOUR_BACKEND_SERVER'
+			}
+		},
 	}
 });

@@ -4,7 +4,8 @@ declare module '*.svg' {
 }
 
 declare module '*.scss' {
-	export const styles: any;
+	const styles: Record<string, string>;
+	export default styles;
 }
 
 declare namespace preact {
@@ -16,3 +17,5 @@ declare namespace preact {
 declare module 'preact' {
 	export = preact;
 }
+
+declare module 'react/jsx-runtime' {}

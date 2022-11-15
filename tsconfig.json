@@ -9,7 +9,22 @@
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"downlevelIteration": true,
-		"lib": ["es6", "dom", "es2017"]
+		"lib": [
+			"ESNext"
+		],
+		"baseUrl": "src",
+		"paths": {
+			"@components": [
+				"./components"
+			],
+			"@pages": [
+				"./pages"
+			],
+			"@icons/": [
+				"../../../assets/icons/*"
+			]
+		}
 	},
-	"include": ["./src/**/**/*", "config/custom.d.ts"]
+	"include": ["./src/**/**/*"],
+	"typeRoots": ["./node_modules/@types", "./src/types"]
 }

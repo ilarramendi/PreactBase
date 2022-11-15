@@ -1,88 +1,111 @@
 {
 	"name": "preact-base",
-	"version": "1.0.2",
-	"description": "",
+	"version": "1.1.0",
 	"main": "./src/index.tsx",
-	"types": "custom.d.ts",
 	"type": "module",
 	"scripts": {
-		"start": "webpack-dev-server . --config ./config/webpack.dev.js",
-		"build": "rm -rf ./dist && webpack . --config ./config/webpack.prod.js",
-		"test": "jest",
-		"style": "xo --prettier --ignore ./node_modules --fix",
-		"kill": "pkill -f webpack",
-		"deploy": "npm run build && rm -rf /config/MercadoTranza/public/* && cp -r ./public/* ./dist/* /config/MercadoTranza/public"
+		"start": "npm-run-all --parallel watch-scss watch-convert-assets start-webpack",
+		"style-fix": "xo --prettier --fix ./src --config",
+		"css-style-fix": "stylelint **/*.scss --fix --config ./config/.stylelintrc",
+		"style-fix-backend": "xo --prettier --fix ./backend/src",
+		"build": "npm-run-all --parallel build-webpack convert-assets",
+		"run-build": "npm run build && http-server -c10 -g -b ./public",
+		"kill": "kill-port 8080 9500",
+		"start-webpack": "webpack-dev-server . --config ./config/webpack.dev.js",
+		"watch-scss": "node config/scripts/generate-scss-types.js",
+		"build-webpack": "webpack . --config ./config/webpack.prod.js",
+		"convert-assets": "node config/scripts/convert-assets.js",
+		"watch-convert-assets": "node config/scripts/watch-convert-assets.js",
+		"style-check": "xo --prettier ./src",
+		"css-style-check": "stylelint **/*.scss --config ./config/.stylelintrc",
+		"style-check-backend": "xo --prettier ./backend/src",
+		"postinstall": "shx cp config/git-scripts/pre-commit .git/hooks/ && shx chmod +x .git/hooks/pre-commit && echo Hook copied"
 	},
 	"author": "ilarramendi",
 	"license": "ISC",
-	"jest": {
-		"clearMocks": true,
-		"coverageProvider": "v8",
-		"moduleNameMapper": {
-			"^.+\\.(css|less|scss)$": "babel-jest"
-		},
-		"verbose": true,
-		"transform": {
-			"^.+\\.tsx?$": "ts-jest",
-			".+\\.(svg|css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
-		}
+	"xo": {
+		"extends": [
+			"./config/xo.config.cjs"
+		],
+		"ignores": [
+			"./src/types/global.functions.ts"
+		]
 	},
 	"babel": {
 		"presets": [
 			"@babel/preset-env",
-			["@babel/preset-react", {"runtime": "automatic"}]
+			[
+				"@babel/preset-react",
+				{
+					"runtime": "automatic"
+				}
+			]
 		],
-		"plugins": [["@babel/plugin-transform-react-jsx-source", { "pragma": "h" }]]
+		"plugins": [
+			[
+				"@babel/plugin-transform-react-jsx-source",
+				{
+					"pragma": "h"
+				}
+			]
+		]
 	},
 	"prettier": {
-			"useTabs": true,
-			"singleQuote": true,
-			"trailingComma": "none",
-			"bracketSpacing": false,
-			"jsxSingleQuote": true,
-			"bracketSameLine": true,
-			"arrowParens": "avoid"
+		"useTabs": true,
+		"singleQuote": true,
+		"trailingComma": "none",
+		"bracketSpacing": false,
+		"jsxSingleQuote": true,
+		"bracketSameLine": true,
+		"arrowParens": "avoid"
 	},
 	"dependencies": {
-		"preact": "^10.8.2",
-		"wouter-preact": "^2.8.0-alpha.2"
+		"gsap": "^3.11.3",
+		"preact": "^10.11.2"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.17.2",
+		"@babel/core": "^7.19.3",
 		"@babel/plugin-transform-react-jsx-source": "^7.18.6",
-		"@babel/plugin-transform-runtime": "^7.17.0",
-		"@babel/preset-env": "^7.16.11",
-		"@babel/preset-typescript": "^7.16.7",
-		"@babel/runtime": "^7.17.2",
-		"@reduxjs/toolkit": "^1.8.3",
-		"@svgr/webpack": "^6.2.1",
-		"@types/jest": "^28.1.2",
+		"@babel/plugin-transform-runtime": "^7.19.1",
+		"@babel/preset-env": "^7.19.4",
+		"@babel/preset-typescript": "^7.18.6",
+		"@babel/runtime": "^7.19.4",
+		"@svgr/webpack": "^6.5.0",
 		"@types/loader-utils": "^2.0.3",
-		"babel-jest": "^28.1.1",
+		"babel-jest": "^29.2.0",
 		"babel-loader": "^8.2.5",
-		"chalk": "^5.0.1",
+		"chalk": "^5.1.2",
+		"chokidar": "^3.5.3",
 		"compression-webpack-plugin": "^10.0.0",
 		"css-loader": "^6.7.1",
-		"eslint": "^8.9.0",
+		"eslint": "8.22.0",
 		"eslint-config-xo-react": "^0.27.0",
-		"jest": "^28.1.1",
-		"jest-fetch-mock": "^3.0.3",
-		"jest-svg-transformer": "^1.0.0",
-		"jest-transform-stub": "^2.0.0",
-		"postcss": "^8.4.14",
-		"postcss-loader": "^7.0.0",
-		"postcss-modules": "^4.3.1",
-		"postcss-nested": "^5.0.6",
+		"eslint-plugin-react": "^7.31.10",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"http-server": "^14.1.1",
+		"imagemin": "^8.0.1",
+		"imagemin-webp": "^7.0.0",
+		"kill-port": "^2.0.1",
+		"node": "^18.11.0",
+		"nodemon": "^2.0.20",
+		"npm-run-all": "^4.1.5",
+		"postcss": "^8.4.18",
+		"postcss-scss": "^4.0.5",
 		"prettier": "2.7.1",
+		"sass": "^1.55.0",
+		"sass-loader": "^13.1.0",
+		"shx": "^0.3.4",
 		"style-loader": "^3.3.1",
-		"ts-jest": "^28.0.5",
-		"ts-loader": "^9.2.9",
-		"ts-node": "^10.7.0",
-		"webpack": "^5.72.0",
-		"webpack-cli": "^4.9.2",
-		"webpack-dev-server": "^4.8.1",
+		"stylelint": "^14.14.0",
+		"stylelint-config-xo": "^0.21.1",
+		"terser-webpack-plugin": "^5.3.6",
+		"ts-loader": "^9.4.1",
+		"typescript": "^4.8.4",
+		"webpack": "^5.74.0",
+		"webpack-cli": "^4.10.0",
+		"webpack-dev-server": "^4.11.1",
 		"webpack-merge": "^5.8.0",
 		"webpack-visualizer-plugin2": "^1.0.0",
-		"xo": "^0.50.0"
+		"xo": "^0.52.4"
 	}
 }

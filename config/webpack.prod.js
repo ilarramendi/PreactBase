@@ -3,12 +3,13 @@ import zlib from 'node:zlib';
 import CompressionPlugin from 'compression-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import {merge} from 'webpack-merge';
+import Visualizer from 'webpack-visualizer-plugin2';
 import common from './webpack.common.js';
 
 export default merge(common, {
 	mode: 'production',
 	output: {
-		path: path.resolve('./dist'),
+		path: path.resolve('./public'),
 		filename: 'main.js',
 
 		// Needed for wouter router to work
@@ -45,8 +46,8 @@ export default merge(common, {
 			}
 		}),
 		// Visualizer for checking code size
-		/*new Visualizer({
+		new Visualizer({
 			filename: './statistics.html'
-		})*/
+		})
 	]
 });

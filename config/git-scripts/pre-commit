@@ -1,0 +1,14 @@
+#!/bin/sh
+# script to enforce style checks to commit
+
+echo "*****Running code style******"
+
+npm run style-check
+codeStatus=$?
+echo "IF $codeStatus is not 0 run style-fix"
+
+npm run css-style-check
+stylesStatus=$?
+echo "IF $stylesStatus is not 0 run css-style-fix"
+
+exit `expr $codeStatus + $stylesStatus`

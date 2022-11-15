@@ -1,13 +1,13 @@
-import path from 'node:path';
-import generateScopedName from './loaders/generateCssModuleNames.js';
-import getJSON from './loaders/generateCssTypes.js';
+const isProd = process.argv.join(' ').includes('webpack.prod.js')
 
 export default {
 	entry: './src/index.tsx',
 	resolve: {
 		extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
 		alias: {
-			react: 'preact/compat'
+			react: 'preact/compat',
+			"react/jsx-runtime": "preact/jsx-runtime",
+			"react-dom": "preact/compat"
 		}
 	},
 	module: {
@@ -21,20 +21,26 @@ export default {
 				test: /\.scss$/,
 				exclude: /node_modules/,
 				use: [
-					'style-loader',
-					path.resolve('./loaders/exportCssModules.cjs'),
-					'css-loader',
+					// Creates `style` nodes from JS strings
 					{
-						loader: 'postcss-loader',
+						loader: 'style-loader',
 						options: {
-							postcssOptions: {
-								plugins: [
-									'postcss-nested',
-									['postcss-modules', {generateScopedName, getJSON}]
-								]
+							// If performance is a problem switch to dart sass
+						}
+					},
+					// Translates CSS into CommonJS
+					{
+						loader: 'css-loader',
+            options: {
+							url: false,
+							modules: {
+								localIdentName: isProd ? '[hash:base64:16]' : 'PB_[name]_[local]-[hash:base64:5]'
 							}
 						}
-					}
+					},
+					// TODO add postcss-loader here
+					// Compiles Sass to CSS
+					"sass-loader"
 				]
 			},
 			{
